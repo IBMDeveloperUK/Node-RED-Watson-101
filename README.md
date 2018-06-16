@@ -110,3 +110,17 @@ In the next part of this workshop, we're going to install some nodes that make i
 10. Go back to your Node-RED dashboard and look at the debug tab. You should see something like `[ 137, 80, 78, 71, 13, 10, 26, 10, 0, 0 … ]` logged out. This means that your Node-RED instance successfully received an image from your web app! Now we're ready to do some clever things 
 
 ### Sprinkling our Web Apps with a little AI magic✨
+
+At this point, we've 
+
+1. Created an HTTP endpoint on which we can serve a web app
+2. Which can use Web Components to access a web cam
+3. And can post pictures taken in our web app back to the Node-RED dashboard where they can be handled.
+
+And that's pretty cool. But, you know what's cooler? ~~a billion dollars~~ Using AI to make sense of what our webcam is seeing! 
+
+Now, using AI sounds like a pretty hefty undertaking, and once upon a time it was, but fear not! Thanks to RESTful APIs like IBM Watson, we can use particular bits of articial intelligence without ever having to even _think_ about managing data sources or neural networks.
+
+So, let's add a little bit of image recognition AI to our photo booth web app.
+
+1. 
