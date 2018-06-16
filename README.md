@@ -85,7 +85,7 @@ In the next part of this workshop, we're going to install some nodes that make i
 <html>
     <head>
         <title>Node-RED AI Photobooth</title>
-        <script src="https://rawgit.com/webcomponents/webcomponentsjs/master/webcomponents-sd-ce.js"></script>
+        <script src="https://rawgit.com/webcomponents/webcomponentsjs/master/bundles/webcomponents-sd-ce.js"></script>
         <script src="/web-components/camera"></script>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
     </head>
