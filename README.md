@@ -23,7 +23,7 @@ If you do not wish to create an IBM Cloud account, you will be able to follow th
 _**NB:** If you have Node-RED installed locally, or already running on a server/in IBM Cloud, you can skip the following steps_
 
 1. Log in to your IBM Cloud Account
-2. Go to the [IBM Cloud Catalog](https://catalog.bluemix.net)
+2. Go to the [IBM Cloud Catalog](https://console.bluemix.net/catalog/)
 3. Search for `Node-RED starter` and click the option to start creating a Node-RED instance
 4. In the `App name:` field, enter a uniue name for your Node-RED instance. Remember, the name will be used in part to form the URL that you'll use to access your Node-RED instance, make sure to take note of it _or_ make it easily memorable
 5. Once you've entered your unique name, click "Create" in the bottom right of the screen.
@@ -93,6 +93,8 @@ In the next part of this workshop, we're going to install some nodes that make i
         
         <node-red-camera data-nr-name="photobooth-camera" data-nr-type="still"></node-red-camera>
         
+        <!--Snippet 1-->
+
     </body>
 </html>
 ```
@@ -123,4 +125,104 @@ Now, using AI sounds like a pretty hefty undertaking, and once upon a time it wa
 
 So, let's add a little bit of image recognition AI to our photo booth web app.
 
-1. 
+4. Head back to your Node-RED flow and search for the `Visual Recognition` node.
+    - If you're running Node-RED locally / anywhere that isn't IBM Cloud, follow these next instructions to install it, otherwise continue to point 2.
+    
+        A. Click the hamburger menu icon (3 horizontal lines in the top right of the Node-RED UI) and then click "Manage Palette"
+        
+        B. Click the 'Install' tab at the top of the configuration panel that opens up and then search for `node-red-node-watson`. Click the "install" button, and then continue with the following steps.
+
+5. Click the grey wire between  your `component camera` node and `debug` node. It will turn orange, then hit your backspace key. This will delete the line.
+
+6. Next, Drag the `visual recognition` node onto the canvas and connect the output of the `component camera` node to the `visual recognition` input node, then connect the output of the `visual recognition` node to the `debug` node. Your flow should now look like the following:
+![The hamburger menu button and the manage palette sub-menu option](images/ai_connected_flow_1.png)
+
+7. Double-click the `visual recognition` node to open the configuration panel. You may notice that we need an API key, but we don't have one yet, so let's create one now!
+
+8. Log in to your IBM Cloud account and head to the [dashboard](https://console.bluemix.net/).
+
+9. Click the 'Create Resource' button in the top-right corner of the screen. A new page will load. Search for "Visual Recognition" and then click to create the resource.
+
+![An image showing what the Watson Visual Recognition Service creation tab looks like](images/watson_service_creation.png)
+
+10. Enter details for your new visual recognition service and then click the "Create" button in the bottom right corner
+
+![An image showing the visual recognition service creation dashboard](images/vis_recog_create.png)
+
+11. After a few seconds, you'll be taken to the dashboard of your newly created visual recognition instance. Here, we can create credentials to allow our Node-RED app to talk to the Watson APIs. On the left hand side of the dashboard, there is a "Service Credentials" button. Click it. 
+
+![The service credentials button](images/service_credentials.png)
+
+12. Once the "Service Credentials" page has loaded click the "New Credential +" button and then click the "Add" button in the dialog that next appears.
+
+![An image showing how to add credentials to the VR instance](images/add_creds.png)
+
+13. After a few seconds, a new visual recognition credential will have been created for us to use in our app. Click the "view credential" button and then copy the `apikey` value in the dropdown that appears.
+
+![Image showing where the API key is](images/copy_key.png)
+
+14. Head back to your Node-RED dashboard and paste the API key into the API Key field. Then click on the "Detect" dropdown and select "Detect Faces". We've now connected up our webcam to the Watson Visual Recognition service that we created!.
+
+15. Before heading back to our web app, double-click on the `debug` node and change the "Output" selection to "complete msg object", then click "Done" and "Deploy".
+
+15. Head back to your web app at `/foo` and reload the page. Take a selfie of yourself and then head back to the Node-RED dashboard. In your debug panel (on the right hand side of the dashboard) there should be a new object waiting for you (if there isn't give it a moment, we're probably just waiting on the result from Visual Recognition). Click to expand it and look at the `result` property. In here, we'll find the results of Watson analysis of our face:
+
+![The results of Watson analysing my face](images/analysis_1.png)
+
+16. Now, that's pretty cool, but we want to send that information back to our web app, not have to click around in the dashboard. Fortunately, this is easy with WebSockets (which are built-in Node-RED). First up, we'll add some JavaScript into our web app for handling the connection and results, then we'll add some nodes to our flow to hook our Node-RED instance up to the web page. 
+
+17. Copy the following JavaScript and then double-click on the `template` node and paste the code just beneath the `<!--Snippet 1-->` line, then click "Done"
+
+```HTML
+<div id="results"></div>
+
+<script>
+    
+    const WS = new WebSocket(`wss://${window.location.host}/visual-recognition-results`);
+    
+    WS.onopen = function(e){
+        console.log('WS OPEN:', e);
+    };
+
+    WS.onmessage = function(e){
+        console.log('WS MESSAGE:', e);
+
+        if(e.data){
+            const D = JSON.parse(e.data);
+
+            console.log(D);
+            
+            document.querySelector('#results').innerHTML = `<strong>Minimum estimated age</strong>: ${D.age.min} <strong>Maximum estimated age</strong>: ${D.age.max} <strong>Gender prediction</strong>: ${D.gender.gender} ${D.gender.score * 100}%`;
+
+        }
+
+    };
+
+    WS.onclose = function(e){
+        console.log('WS CLOSE:', e);
+    };
+
+    WS.onerror = function(e){
+        console.log('WS ERROR:', e);
+    };
+    
+</script>
+```
+
+18. Our web app now has the ability to connect to our Node-RED instance and get the results of our Visual Recognition request and then display them, but Node-RED hasn't yet been set up to pass that information to our app. We'll do that now. In the nodes panel on the left-hand side of the Node-RED dashboard search for a `change` node and drag in onto the canvas. Connect the output of the `visual recognition` node to the input of the `change` node.
+
+19. Double-click the `change` node and then click the dropdown (highlighted in green in the next image) and select `msg.` Then copy and paste the following into the adjacent text field `result.images[0].faces[0]` and then click "Done".
+
+![Image showing the msg dropdown](images/change_node.png)
+![Image showing the msg dropdown](images/change_node_past.png)
+
+20. Search for one final node in the nodes panel to the left `websocket`. You should get two results, we want to use the node with the globe on the right-hand side of the node. Drag it onto the canvas and connect the output of the `change` node to the input of the `websocket` node. Your flow should now look like the following:
+
+![An image showing the current flow configuration](images/change_flow.png)
+
+21. Double-click on the `websocket` node and click the pen icon next to the "Path" input options (highlighted in blue).
+![The edit option icon](images/websocket_edit_1.png) 
+
+22. In the next UI enter the value `/visual-recognition-results` in the "Path" input field and then click "Add". The click "Done" and "Deploy" and head back to your web app.![An image showing how to set a websocket path](images/websocket_set_path.png)
+
+23. Reload the web page and then take another picture of your face. After a few seconds, some text describing what Watson thinks your Age/Gender will appear on the screen. Our app has AI! 
