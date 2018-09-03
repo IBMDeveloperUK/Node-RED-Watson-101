@@ -78,7 +78,7 @@ In the next part of this workshop, we're going to install some nodes that make i
 3. A list will be populated with the available components that we can install. Work through the list until you find the nodes named `node-red-contrib-web-components` and then click "install" in the bottom right of the list item. 
     - If a prompt appears warning that you may need to restart Node-RED, pay it no mind, just click "Install", everything should be fine.
 
-4. We've now installed some new nodes in our Node-RED instance 🎉 In this case, we've installed some nodes that make it easier to use a webcam in our web apps with our Node-RED instance. First up, we need to update the HTML page that we created in the first part of this tutorial with some extra bits and bobs. Double-click on the `template` node and copy/past the following code into the text field.
+4. We've now installed some new nodes in our Node-RED instance 🎉 In this case, we've installed some nodes that make it easier to use a webcam in our web apps with our Node-RED instance. First up, we need to update the HTML page that we created in the first part of this tutorial with some extra bits and bobs. Double-click on the `template` node and copy/paste the following code into the text field.
 
 ```HTML
 <!DOCTYPE html>
