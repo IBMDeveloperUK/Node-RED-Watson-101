@@ -13,7 +13,7 @@ By following this workshop, you will learn:
 To follow this workshop, you will need:
 
 1. [Node-RED](https://nodered.org/docs/getting-started/installation) installed on your system (or a Node-RED instance hosted on IBM Cloud)
-2. An IBM Cloud account. _[Sign up here](https://ibm.biz/BdZUdm)_
+2. An IBM Cloud account. _[Sign up here](https://ibm.biz/BdYMsy)_
 
 If you do not wish to create an IBM Cloud account, you will be able to follow the first half of this tutorial by running Node-RED locally on your system, but you won't be able to complete the AI API section of the tutorial.
 
