@@ -27,7 +27,7 @@ _**NB:** If you have Node-RED installed locally, or already running on a server/
 3. Search for `Node-RED starter` and click the option to start creating a Node-RED instance
 4. In the `App name:` field, enter a uniue name for your Node-RED instance. Remember, the name will be used in part to form the URL that you'll use to access your Node-RED instance, make sure to take note of it _or_ make it easily memorable
 5. Once you've entered your unique name, click "Create" in the bottom right of the screen.
-6. The Node-RED starter instance will now be created an spun up. Once the process is complete the status of the application will change from "Starting" to "Running". When this happens, click the "Visit App URL" link to go to your Node RED dashboard.
+6. The Node-RED starter instance will now be created and spun up. Once the process is complete the status of the application will change from "Starting" to "Running". When this happens, click the "Visit App URL" link to go to your Node RED dashboard.
 7. You'll now be run through a quick 4 step initial setup process. 
     1. When prompted, do create a username and password for your Node-RED instance, this server will be publically accessible on the internet, and we don't want strangers digging around our lovingly crafted flows.
     2. Once you've entered a username and password, just click next until the process completes and you're taken to your Node-RED instance.
