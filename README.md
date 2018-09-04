@@ -105,7 +105,7 @@ In the next part of this workshop, we're going to install some nodes that make i
 
 7. Double-click the `component-camera` node you just dragged onto the canvas and enter `photobooth-camera` as the value for the "Connection ID" text field, and then click 'Done'. If you look at the HTML that we copied into our `template` node, you'll see that the `<node-red-camera>` node has an attribute `data-nr-name` and it's value is `photobooth-camera`. This value is used to link the `<node-red-camera>` node in our web app the the `component-camera` node in our Node-RED backend. Now, whenever we take a picture in our web app, it will be send to the `component-camera` node with the same name in our Node-RED flow. Once there, we can do a bunch of things with it!
 
-8. Search for and drag a `debug` node onto the canvas and connect it to your `component-camera` node and then click "Deploy". Before heading back to the `/foo` route, at the top right of your Node-RED dashboard, click the 'debug' tab. This will allow us to see when the `debug` node has receieved an image from the `component-camera` node that we created. 
+8. Search for and drag a `debug` node onto the canvas and connect it to your `component-camera` node and then click "Deploy". Before heading back to the `/foo` route, at the top right of your Node-RED dashboard, click the 'debug' tab. If you do not see it, click on the little triangle to find the 'debug' tab. This will allow us to see when the `debug` node has receieved an image from the `component-camera` node that we created. 
 
 9. Head back to the web app at `/foo` and reload the page. Take a photo!
 
@@ -126,7 +126,7 @@ Now, using AI sounds like a pretty hefty undertaking, and once upon a time it wa
 So, let's add a little bit of image recognition AI to our photo booth web app.
 
 4. Head back to your Node-RED flow and search for the `Visual Recognition` node.
-    - If you're running Node-RED locally / anywhere that isn't IBM Cloud, follow these next instructions to install it, otherwise continue to point 2.
+    - If you're running Node-RED locally / anywhere that isn't IBM Cloud, follow these next instructions to install it, otherwise continue to point 5.
     
         A. Click the hamburger menu icon (3 horizontal lines in the top right of the Node-RED UI) and then click "Manage Palette"
         
