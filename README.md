@@ -8,7 +8,7 @@ By following this workshop, you will learn:
 2. How to create a simple web server and pass messages between client and server
 3. How to use artificial intelligence APIs (IBM Watson Services) with your applications and data.
 
-## Prerequistes
+## Prerequisites
 
 To follow this workshop, you will need:
 
